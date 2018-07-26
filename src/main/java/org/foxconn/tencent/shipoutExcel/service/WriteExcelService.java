@@ -2,14 +2,27 @@ package org.foxconn.tencent.shipoutExcel.service;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Reader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -22,16 +35,40 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
+import org.foxconn.tencent.shipoutExcel.dao.OsMsgDao;
 import org.foxconn.tencent.shipoutExcel.entity.Component;
+import org.foxconn.tencent.shipoutExcel.entity.OsMsgModel;
+import org.foxconn.tencent.shipoutExcel.entity.OsQueryModel;
 import org.foxconn.tencent.shipoutExcel.entity.Result;
 import org.foxconn.tencent.shipoutExcel.entity.SystemModel;
+import org.foxconn.tencent.shipoutExcel.schedule.ScheduleRunner;
 import org.foxconn.tencent.shipoutExcel.util.ToStringArrayUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 
+@Service
+@RestController
 public class WriteExcelService {
 	
-
+	@Resource
+	OsMsgDao osMsgDao;
+	Logger logger = Logger.getLogger(ScheduleRunner.class);
+	
+	@Resource
+	HttpServletRequest request;
+	@Resource
+	HttpServletResponse response;
+	
 	public String getJSON(String path) throws IOException {
 		File file = new File(path);
 		Reader reader = null;
@@ -52,17 +89,41 @@ public class WriteExcelService {
 		str= sb.toString().replace("/t", "");
 		return sb.toString();
 	}
-
-	public void writeExcle() throws IOException {
-		List<SystemModel> systems = getSystemModel();
+	@PostMapping(value="/file")
+	public String getWriteExcleName(String startTime,String endTime,String sn) throws ParseException{
+		Map<String,Object> map = new HashMap<String, Object>();
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+		//System.out.println("-----------"+startTime);
+		if(null!=startTime){
+			map.put("startTime", startTime);
+		}
+		if(null!=sn){
+			map.put("sn", sn);
+		}
+		if(null!=endTime){
+			map.put("endTime", endTime);
+		}
+		String fileName ="";
+		try {
+			fileName = writeExcle(map);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileName;
+	}
+	
+	public String writeExcle(Map<String,Object> map) throws IOException {
+		List<SystemModel> systems = getOsMsg(map);
 		List<Component> ls = null;
 		FileOutputStream output = null;
+		String filePath = new Date().getTime()+".xlsx";
 		try {
-			output = new FileOutputStream("d:\\整機部件驗收清單.xlsx");
+			output = new FileOutputStream(filePath);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // 读取的文件路径
+//		logger.info(ls);
 		SXSSFWorkbook wb = new SXSSFWorkbook(10000);// 内存中保留 10000 条数据，以免内存溢出，其余写入 硬盘
 		Sheet sheet = wb.createSheet(String.valueOf(0));
 		wb.setSheetName(0, "整機部件驗收清單");
@@ -115,12 +176,12 @@ public class WriteExcelService {
 //		createFont.setBoldweight(Font.BOLDWEIGHT_NORMAL);
 		int index =1;
 		for (int j = 0; j < systems.size(); j++) {
-			System.out.println(systems.get(j).toString());
+//			System.out.println(systems.get(j).toString());
 			SystemModel system = systems.get(j);
 			ls = system.getComponent();
 			
 			int width = 0;
-			System.out.println(ls);
+//			System.out.println(ls);
 			ArrayList<String[]> ls2 =null;
 			if(ls!=null) {
 				ls2 = (ArrayList<String[]>) ToStringArrayUtil.toStringArray(ls);
@@ -181,7 +242,43 @@ public class WriteExcelService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return filePath;
 	}
+	
+	private List<SystemModel> getOsMsg(Map<String,Object> map){
+		List<OsMsgModel> models =null;
+		try {
+			models = osMsgDao.findAll(map);
+		} catch (Exception e) {
+			String errorMsg = e.getCause().toString();
+			logger.error(errorMsg);
+		}
+		//System.out.println(models);
+		List<SystemModel> list = new ArrayList<SystemModel>();
+		SystemModel system =null;
+		for(OsMsgModel model:models){
+			system = parseJson(model.getJson());
+			if(system!=null){
+				list.add(system);
+			}
+		}
+		return list;
+	}
+	
+	
+	private SystemModel parseJson(String json){
+		if(json==null){
+			return null;
+		}
+		SystemModel system =null;
+		Result result = JSON.parseObject(json, Result.class);
+		if(result!=null){
+			system = result.getSystem();
+		}
+		return system;
+	}
+	
+	
 	private List<SystemModel> getSystemModel() throws IOException{
 		File file = new File("");
 		String path = file.getAbsolutePath();
@@ -205,5 +302,24 @@ public class WriteExcelService {
 			systems.add(system);
 		}
 		return systems;
+	}
+	
+	
+	@GetMapping(value="/download")
+	public void downLoadFile() throws Exception{
+		String fileName = request.getParameter("fileName");
+		//2、下载
+		File file = new File(fileName);
+		fileName = new String(fileName.getBytes("gb2312"),"ISO8859_1");
+		response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
+		int len = (int)file.length();
+		byte []buf = new byte[len];
+		FileInputStream fis = new FileInputStream(file);
+		OutputStream out = response.getOutputStream();
+		len = fis.read(buf);
+		out.write(buf, 0, len);
+		out.flush();
+		fis.close();
+		file.delete();
 	}
 }
