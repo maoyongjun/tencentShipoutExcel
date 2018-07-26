@@ -1,0 +1,159 @@
+{
+	"system": {
+		"pn": "RM760-FX",
+		"sn": "7CE829P6TL",
+		"board": {
+			"pn": "T-Twins",
+			"sn": "02012EW00T0BAW02X",
+			"fw": "BMC:1.22;BIOS:HC1T115F;CPLD:06"
+		},
+		"cpu": {
+			"pn": "Intel(R)Xeon(R)Gold6133CPU@2.50GHz",
+			"sn": "54060500FFFBEBBF"
+		},
+		"hdd": [
+			{
+				"pn": "SSDSC2KB480G7",
+				"sn": "BTYS8145062X480BGN",
+				"fw": "SCV10142"
+			},
+			{
+				"pn": "SSDSC2KB480G7",
+				"sn": "BTYS8146045E480BGN",
+				"fw": "SCV10142"
+			},
+			{
+				"pn": "SSDSC2KB480G7",
+				"sn": "BTYS8145064D480BGN",
+				"fw": "SCV10142"
+			},
+			{
+				"pn": "SSDSC2KB480G7",
+				"sn": "BTYS811300RE480BGN",
+				"fw": "SCV10142"
+			},
+			{
+				"pn": "SSDSC2KB480G7",
+				"sn": "BTYS81460469480BGN",
+				"fw": "SCV10142"
+			},
+			{
+				"pn": "SSDSC2KB480G7",
+				"sn": "BTYS81120A7U480BGN",
+				"fw": "SCV10142"
+			}
+		],
+		"memory": [
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF38"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFEF3"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFFAE"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "52601240"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFFEE"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF06"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF3B"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF7C"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFFE6"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF6D"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF93"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF83"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFF88"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFEE6"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "52601243"
+			},
+			{
+				"pn": "HMA82GR7AFR8N-VK",
+				"sn": "525FFECE"
+			}
+		],
+		"nic": [
+			{
+				"pn": "IntelCorporationDevice37d2(rev09)",
+				"sn": "28:c1:3c:89:54:57",
+				"fw": "3.33"
+			},
+			{
+				"pn": "IntelCorporationDevice37d2(rev09)",
+				"sn": "28:c1:3c:89:54:56",
+				"fw": "3.33"
+			}
+		],
+		"psu": [
+			{
+				"pn": "S15-550P1A",
+				"sn": "F3182200000680",
+				"fw": "00.01.01"
+			},
+			{
+				"pn": "S15-550P1A",
+				"sn": "F3182200000790",
+				"fw": "00.01.01"
+			}
+		],
+		"raid": {
+			"pn": "",
+			"sn": "",
+			"fw": ""
+		},
+		"hba": {
+			"pn": "",
+			"sn": "",
+			"fw": ""
+		},
+		"bp": [
+			{
+				"pn": "",
+				"sn": "",
+				"fw": ""
+			},
+			{
+				"pn": "",
+				"sn": "",
+				"fw": "0909"
+			}
+		]
+	}
+}
