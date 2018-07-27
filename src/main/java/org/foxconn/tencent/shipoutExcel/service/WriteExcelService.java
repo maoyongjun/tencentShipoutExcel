@@ -192,7 +192,7 @@ public class WriteExcelService {
 				row = sheet.createRow(index+i);
 				
 				if(i==0){
-					String[] snmaster = new String[]{"POGO2018***","TYSV180404**",system.getSn(),"FOXCONN","RM760-FX","SC3-10G","6.0.0.10"};
+					String[] snmaster =system.toStringArray();
 					for(int k=0;k<snmaster.length;k++){
 						Cell cell0 = row.createCell(k);
 						cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
@@ -257,7 +257,12 @@ public class WriteExcelService {
 		List<SystemModel> list = new ArrayList<SystemModel>();
 		SystemModel system =null;
 		for(OsMsgModel model:models){
-			system = parseJson(model.getJson());
+			String json = model.getJson();
+			if(json.indexOf("\"cpu\":{")!=-1){
+				json = json.replace("\"cpu\":{", "\"cpu\":[{");
+				json = json.replace("},\"hdd\"", "}],\"hdd\"");
+			}
+			system = parseJson(json);
 			if(system!=null){
 				list.add(system);
 			}
