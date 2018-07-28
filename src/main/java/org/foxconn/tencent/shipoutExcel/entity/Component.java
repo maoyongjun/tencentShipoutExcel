@@ -1,5 +1,6 @@
 package org.foxconn.tencent.shipoutExcel.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,16 @@ public class Component extends BaseStringArray{
 	private String fw;
 	private String type;
 	public static Map<String,String> pnmap= new HashMap<String, String>();
+	
+	private List<Component> efoxCpu= new ArrayList<Component>();
+	public List<Component> getEfoxCpu() {
+		return efoxCpu;
+	}
+
+	public void setEfoxCpu(List<Component> efoxCpu) {
+		this.efoxCpu = efoxCpu;
+	}
+
 	
 	private Logger logger = Logger.getLogger(Component.class);
 	public String getFw() {
@@ -60,16 +71,14 @@ public class Component extends BaseStringArray{
 	}
 	public void addList(List<Component> component,List<Component> subcomponent,String type){
 		MMprodmasterSAPClient client =null;
-		if("HEATSINK".equals(type)){
-			 client = new MMprodmasterSAPClient();
-		}
 		
 		for(Component sub:subcomponent){
 			if(sub.getType()==null||"".equals(sub.getType().trim())){
 				sub.setType(type);
 			}
 			//从sap获取供应商料号信息
-			if(null!=client){
+			if("Cable".equals(type)){
+				client = new MMprodmasterSAPClient();
 				String mfrpn;
 				String pn = sub.getPn(); 				
 				mfrpn = pnmap.get(pn);
@@ -88,7 +97,18 @@ public class Component extends BaseStringArray{
 				
 			}
 		}
+		
 		client=null;
+		
+		if("CPU".equals(type)){
+			int index=0;
+			if(efoxCpu.size()>=subcomponent.size()){
+				for(Component sub:subcomponent){
+					sub.setSn(efoxCpu.get(index++).getSn());
+				}
+			}
+		}
+		
 		component.addAll(subcomponent);
 	}
 	

@@ -35,6 +35,10 @@ public class SystemModel extends Component{
 	private List<Component> sas93008i= new ArrayList<Component>();
 	private List<Component> vrochwkey= new ArrayList<Component>();
 	
+	
+
+
+
 	List<Component> component= new ArrayList<Component>();
 	
 	@Override
