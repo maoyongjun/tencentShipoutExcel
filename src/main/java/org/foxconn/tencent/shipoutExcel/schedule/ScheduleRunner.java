@@ -12,8 +12,11 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.foxconn.tencent.shipoutExcel.sap.MMprodmasterSAPClient;
 import org.foxconn.tencent.shipoutExcel.service.WriteExcelService;
 import org.springframework.stereotype.Component;
+
+import com.sap.conn.jco.JCoException;
 
 @Component
 public class ScheduleRunner {
@@ -24,33 +27,80 @@ public class ScheduleRunner {
 	Logger logger = Logger.getLogger(ScheduleRunner.class);
 	ScheduledExecutorService taskService = Executors.newScheduledThreadPool(10);;
 	List<Runnable> oneDayRunnables = new ArrayList<Runnable>();
+	List<Runnable> oneHoursRunnables = new ArrayList<Runnable>();
+	List<Runnable> oneWeekRunnables = new ArrayList<Runnable>();
 	public void run() {
 		addRunnables();
 		for(Runnable runnable : oneDayRunnables){
 			taskService.scheduleAtFixedRate(runnable, 0, 1000, TimeUnit.SECONDS);
 		}
+		for(Runnable runnable : oneHoursRunnables){
+			taskService.scheduleAtFixedRate(runnable, 0, 3600, TimeUnit.SECONDS);
+		}
+		for(Runnable runnable : oneWeekRunnables){
+			taskService.scheduleAtFixedRate(runnable, 0, 3600*24*7, TimeUnit.SECONDS);
+		}
+		
 	}
 	
 	public void addRunnables(){
 		addSendExcelRunnable();
+		addupdatePnMapRunnable();
+		addClearPnMapRunnable();
 	}
+	
 	
 	public void addSendExcelRunnable(){
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
 				logger.info("send excel task Begin");
-				try {
-					Map<String,Object> map = new HashMap<>();
-					writeExcelService.writeExcle(map);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					Map<String,Object> map = new HashMap<>();
+//					writeExcelService.writeExcle(map);
+//				} catch (IOException e) {
+//					logger.error(e.getCause().toString());
+//				}
 				logger.info("send excel task End");
 			}
 		};
 		oneDayRunnables.add(runnable);
+	}
+	
+	public void addupdatePnMapRunnable(){
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				logger.info("update pn Map task Begin");
+				MMprodmasterSAPClient client = new MMprodmasterSAPClient();
+				for(String key :org.foxconn.tencent.shipoutExcel.entity.Component.pnmap.keySet())
+				{
+					String value=key;
+					try {
+						value = client.downMMprodmastercalls(key);
+					} catch (JCoException e) {
+						logger.error(e.getCause().toString());
+					}
+					org.foxconn.tencent.shipoutExcel.entity.Component.pnmap.put(key, value);
+					logger.info("key:"+key+",value"+value);
+				}
+					
+				logger.info("update pn Map task End");
+			}
+		};
+		oneHoursRunnables.add(runnable);
+	}
+	
+	public void addClearPnMapRunnable(){
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				logger.info("clear pn Map task Begin");
+				org.foxconn.tencent.shipoutExcel.entity.Component.pnmap= new HashMap<>();
+				logger.info("clear pn Map task End");
+			}
+		};
+		oneWeekRunnables.add(runnable);
 	}
 	
 }

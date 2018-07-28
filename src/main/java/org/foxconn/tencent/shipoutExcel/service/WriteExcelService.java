@@ -38,20 +38,13 @@ import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 import org.foxconn.tencent.shipoutExcel.dao.OsMsgDao;
 import org.foxconn.tencent.shipoutExcel.entity.Component;
 import org.foxconn.tencent.shipoutExcel.entity.OsMsgModel;
-import org.foxconn.tencent.shipoutExcel.entity.OsQueryModel;
 import org.foxconn.tencent.shipoutExcel.entity.Result;
 import org.foxconn.tencent.shipoutExcel.entity.SystemModel;
 import org.foxconn.tencent.shipoutExcel.schedule.ScheduleRunner;
 import org.foxconn.tencent.shipoutExcel.util.ToStringArrayUtil;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -91,6 +84,7 @@ public class WriteExcelService {
 	}
 	@PostMapping(value="/file")
 	public String getWriteExcleName(String startTime,String endTime,String sn) throws ParseException{
+		logger.info("---begin---");
 		Map<String,Object> map = new HashMap<String, Object>();
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
 		//System.out.println("-----------"+startTime);
@@ -109,6 +103,7 @@ public class WriteExcelService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		logger.info("---end---");
 		return fileName;
 	}
 	
