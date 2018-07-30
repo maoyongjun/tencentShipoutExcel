@@ -129,6 +129,13 @@ public class Component extends BaseStringArray{
 					sub.setSn(efoxbp.get(index++).getSn());
 					sub.setPn(efoxbp.get(index++).getPn());
 				}
+			}else{
+				for(Component sub:subcomponent){
+					if(sub.getFw()!=null&&!"".equals(sub.getFw().trim())){
+						sub.setSn(efoxbp.get(0).getSn());
+						sub.setPn(efoxbp.get(0).getPn());
+					}
+				}
 			}
 		}
 		component.addAll(subcomponent);
