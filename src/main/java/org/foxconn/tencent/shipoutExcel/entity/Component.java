@@ -18,6 +18,18 @@ public class Component extends BaseStringArray{
 	public static Map<String,String> pnmap= new HashMap<String, String>();
 	
 	private List<Component> efoxCpu= new ArrayList<Component>();
+	
+	private List<Component> efoxbp= new ArrayList<Component>();
+	
+	
+	public List<Component> getEfoxbp() {
+		return efoxbp;
+	}
+
+	public void setEfoxbp(List<Component> efoxbp) {
+		this.efoxbp = efoxbp;
+	}
+
 	public List<Component> getEfoxCpu() {
 		return efoxCpu;
 	}
@@ -77,7 +89,7 @@ public class Component extends BaseStringArray{
 				sub.setType(type);
 			}
 			//从sap获取供应商料号信息
-			if("Cable".equals(type)){
+			if("CABLE".equals(type)){
 				client = new MMprodmasterSAPClient();
 				String mfrpn;
 				String pn = sub.getPn(); 				
@@ -88,6 +100,7 @@ public class Component extends BaseStringArray{
 						mfrpn = client.downMMprodmastercalls(sub.getPn());
 						pnmap.put(pn, mfrpn);
 						sub.setPn(mfrpn);
+						logger.info("pn:"+pn+",mfrpn:"+mfrpn);
 					} catch (JCoException e) {
 						logger.error(e.getCause().toString());
 					}
@@ -109,6 +122,15 @@ public class Component extends BaseStringArray{
 			}
 		}
 		
+		if("BP".equals(type)){
+			int index=0;
+			if(efoxbp.size()>=subcomponent.size()){
+				for(Component sub:subcomponent){
+					sub.setSn(efoxbp.get(index++).getSn());
+					sub.setPn(efoxbp.get(index++).getPn());
+				}
+			}
+		}
 		component.addAll(subcomponent);
 	}
 	

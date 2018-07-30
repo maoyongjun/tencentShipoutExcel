@@ -84,7 +84,7 @@ public class WriteExcelService {
 	}
 	@PostMapping(value="/file")
 	public String getWriteExcleName(String startTime,String endTime,String sn) throws ParseException{
-		logger.info("---begin---");
+		logger.info("---create excel begin---");
 		Map<String,Object> map = new HashMap<String, Object>();
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
 		//System.out.println("-----------"+startTime);
@@ -92,7 +92,7 @@ public class WriteExcelService {
 			map.put("startTime", startTime);
 		}
 		if(null!=sn){
-			map.put("sn", sn);
+			map.put("ssn", sn);
 		}
 		if(null!=endTime){
 			map.put("endTime", endTime);
@@ -103,7 +103,7 @@ public class WriteExcelService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		logger.info("---end---");
+		logger.info("---create excel  end---");
 		return fileName;
 	}
 	
