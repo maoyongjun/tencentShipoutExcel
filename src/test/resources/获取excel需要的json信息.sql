@@ -10,7 +10,7 @@ AS
 			
 		
 	
-	--EFOX ßÏ®˙™∫´HÆß
+	--EFOX ÊäìÂèñÁöÑ‰ø°ÊÅØ
 	declare @efoxData TABLE(
 		sn		VARCHAR(100),
 		ctype	VARCHAR(100),
@@ -22,18 +22,30 @@ AS
 
 	IF RTRIM(LTRIM(ISNULL(@ssn,'')))=''
 	BEGIN
-		SELECT TOP 10 SSN AS sn,REPLACE(Field9,'{"system":{','{"system":{'+dbo.fn_getTencentShipoutExcelHeaderMsg(SSN)+','+DBO.fn_getTencentShipoutExcelMsg(SSN)+',')as json,'os' AS 'source'
-		FROM eFoxSFCUpdateSSNStatusBySSN_tencent_input 
-		WHERE Field9 <>'' 
-		AND lasteditdt>@startTime AND lasteditdt<@endTime
-		ORDER BY lasteditdt DESC
+		SELECT  SSN AS sn,REPLACE(Field9,'{"system":{','{"system":{'+dbo.fn_getTencentShipoutExcelHeaderMsg(SSN)+','+DBO.fn_getTencentShipoutExcelMsg(SSN)+',')as json,'os' AS 'source' 
+		FROM (
+			SELECT   ROW_NUMBER() OVER (PARTITION BY SSN  ORDER BY lasteditdt DESC) AS RN  ,*
+			FROM (SELECT TOP 10 * 
+					FROM eFoxSFCUpdateSSNStatusBySSN_tencent_input 
+					WHERE Field9 <>'' 
+					AND lasteditdt>@startTime AND lasteditdt<@endTime
+					ORDER BY lasteditdt DESC
+				)F2
+		) F1
+		WHERE F1.RN=1
 	END
 	ELSE
 	BEGIN
-		SELECT TOP 10 SSN AS sn,REPLACE(Field9,'{"system":{','{"system":{'+dbo.fn_getTencentShipoutExcelHeaderMsg(SSN)+','+DBO.fn_getTencentShipoutExcelMsg(SSN)+',')as json,'os' AS 'source'
-		FROM eFoxSFCUpdateSSNStatusBySSN_tencent_input 
-		WHERE Field9 <>'' 
-		AND lasteditdt>@startTime AND lasteditdt<@endTime
-		AND SSN IN (SELECT Value FROM dbo.fn_Split(@ssn,','))
-		ORDER BY lasteditdt DESC
+		SELECT  SSN AS sn,REPLACE(Field9,'{"system":{','{"system":{'+dbo.fn_getTencentShipoutExcelHeaderMsg(SSN)+','+DBO.fn_getTencentShipoutExcelMsg(SSN)+',')as json,'os' AS 'source' 
+		FROM (
+			SELECT   ROW_NUMBER() OVER (PARTITION BY SSN  ORDER BY lasteditdt DESC) AS RN  ,*
+			FROM (SELECT TOP 10 * 
+					FROM eFoxSFCUpdateSSNStatusBySSN_tencent_input 
+					WHERE Field9 <>'' 
+					AND SSN IN (SELECT Value FROM dbo.fn_Split(@ssn,','))
+					ORDER BY lasteditdt DESC
+				)F2
+		) F1
+		WHERE F1.RN=1
+		
 	END
