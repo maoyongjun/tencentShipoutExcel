@@ -129,7 +129,7 @@ public class Component extends BaseStringArray{
 					sub.setSn(efoxbp.get(index++).getSn());
 					sub.setPn(efoxbp.get(index++).getPn());
 				}
-			}else{
+			}else if(efoxbp.size()>0){
 				for(Component sub:subcomponent){
 					if(sub.getFw()!=null&&!"".equals(sub.getFw().trim())){
 						sub.setSn(efoxbp.get(0).getSn());
