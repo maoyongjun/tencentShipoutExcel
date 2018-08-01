@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SystemModel extends Component{
-	
+	private String sn;
 	private String po;
 	private String accecode;
 	private String factoryname;
@@ -41,6 +41,20 @@ public class SystemModel extends Component{
 
 	List<Component> component= new ArrayList<Component>();
 	
+	public String getSn() {
+		return sn;
+	}
+
+
+
+
+	public void setSn(String sn) {
+		this.sn = sn;
+	}
+
+
+
+
 	@Override
 	public String[] toStringArray() {
 		// TODO Auto-generated method stub

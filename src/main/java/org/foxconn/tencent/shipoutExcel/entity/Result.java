@@ -1,14 +1,27 @@
 package org.foxconn.tencent.shipoutExcel.entity;
 
-public class Result {
-	SystemModel system;
+import java.util.List;
 
-	public SystemModel getSystem() {
+public class Result {
+	String skuno;
+	List<SystemModel> system;
+	
+	
+	public String getSkuno() {
+		return skuno;
+	}
+
+	public void setSkuno(String skuno) {
+		this.skuno = skuno;
+	}
+
+	public List<SystemModel> getSystem() {
 		return system;
 	}
 
-	public void setSystem(SystemModel system) {
+	public void setSystem(List<SystemModel> system) {
 		this.system = system;
 	}
+
 	
 }

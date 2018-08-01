@@ -89,7 +89,7 @@ public class Component extends BaseStringArray{
 				sub.setType(type);
 			}
 			//从sap获取供应商料号信息
-			if("CABLE".equals(type)){
+			if("CABLE".equals(type)||"FAN".equals(type)){
 				client = new MMprodmasterSAPClient();
 				String mfrpn;
 				String pn = sub.getPn(); 				
@@ -109,7 +109,11 @@ public class Component extends BaseStringArray{
 				}
 				
 			}
+		
 		}
+		
+		
+		
 		
 		client=null;
 		

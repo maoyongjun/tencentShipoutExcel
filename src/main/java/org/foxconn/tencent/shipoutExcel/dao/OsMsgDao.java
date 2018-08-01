@@ -7,5 +7,5 @@ import org.foxconn.tencent.shipoutExcel.entity.OsMsgModel;
 import org.springframework.dao.DataAccessException;
 
 public interface OsMsgDao{
-	public List<OsMsgModel> findAll(Map<String,Object> map)  throws DataAccessException;
+	public OsMsgModel findAll(Map<String,Object> map)  throws DataAccessException;
 }

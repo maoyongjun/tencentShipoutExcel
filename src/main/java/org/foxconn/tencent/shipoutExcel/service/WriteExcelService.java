@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -108,7 +109,7 @@ public class WriteExcelService {
 	}
 	
 	public String writeExcle(Map<String,Object> map) throws IOException {
-		List<SystemModel> systems = getOsMsg(map);
+		Map<String,List<SystemModel>> allsystems = getOsMsg(map);
 		List<Component> ls = null;
 		FileOutputStream output = null;
 		String filePath = new Date().getTime()+".xlsx";
@@ -120,115 +121,123 @@ public class WriteExcelService {
 		} // 读取的文件路径
 //		logger.info(ls);
 		SXSSFWorkbook wb = new SXSSFWorkbook(10000);// 内存中保留 10000 条数据，以免内存溢出，其余写入 硬盘
-		Sheet sheet = wb.createSheet(String.valueOf(0));
-		wb.setSheetName(0, "整機部件驗收清單");
-//		CellStyle cellStyle =  wb.createCellStyle();
-//		cellStyle.setAlignment(CellStyle.ALIGN_LEFT);
-//		cellStyle.setBorderBottom(CellStyle.BORDER_DASHED);
-		String[] headers = new String[]{"采购单号","服务器固资号","服务器SN号","厂商","机型","设备类型"
-				,"版本","部件类型","部件原厂PN（支持采集的为OS采集PN)","部件原厂SN （支持采集的为OS采集SN）"
-				,"部件FW版本"};
-		Row row = sheet.createRow(0);
-		Font createFont = wb.createFont();
-		CellStyle createCellStyle = wb.createCellStyle();
-		createFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-		createCellStyle.setFont(createFont);
-		createCellStyle.setWrapText(true);//
-		createCellStyle.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
-		createCellStyle.setBorderBottom(CellStyle.BORDER_MEDIUM);
-		createCellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-		createCellStyle.setBorderRight(CellStyle.BORDER_THIN);
-		createCellStyle.setBorderTop(CellStyle.BORDER_THIN);
-		createCellStyle.setFillBackgroundColor(CellStyle.SOLID_FOREGROUND);
-		CellStyle createCellStyle2 = wb.createCellStyle();
-		createCellStyle2.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
-		createCellStyle2.setBorderBottom(CellStyle.BORDER_THIN);
-		createCellStyle2.setBorderLeft(CellStyle.BORDER_THIN);
-		createCellStyle2.setBorderRight(CellStyle.BORDER_THIN);
-		createCellStyle2.setBorderTop(CellStyle.BORDER_THIN);
 		
-		CellStyle createCellStyle3 = wb.createCellStyle();
-		createCellStyle3.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
-		createCellStyle3.setBorderBottom(CellStyle.BORDER_THIN);
-		createCellStyle3.setBorderLeft(CellStyle.BORDER_THIN);
-		createCellStyle3.setBorderRight(CellStyle.BORDER_THIN);
-		createCellStyle3.setBorderTop(CellStyle.BORDER_THIN);
-		createCellStyle3.setFillForegroundColor(HSSFColor.YELLOW.index);
-	    //solid 填充  foreground  前景色
-		createCellStyle3.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-	    
-		for(int i=0;i<headers.length;i++){
-			Cell cell0 = row.createCell(i);
-			cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
-			cell0.setCellValue(headers[i]);// 写入内容
-			cell0.setCellStyle(createCellStyle);
-			if(i<5){
-				sheet.setColumnWidth(i,4000);
-			}else{
-				sheet.setColumnWidth(i,8000);
-			}
-		}
-//		createFont.setBoldweight(Font.BOLDWEIGHT_NORMAL);
-		int index =1;
-		for (int j = 0; j < systems.size(); j++) {
-//			System.out.println(systems.get(j).toString());
-			SystemModel system = systems.get(j);
-			ls = system.getComponent();
+		int sheetindex=0;
+		for(Entry<String,List<SystemModel>> systemsEntry:allsystems.entrySet()){
+			String sheetname = systemsEntry.getKey();
+			List<SystemModel> systems = systemsEntry.getValue();
+			Sheet sheet = wb.createSheet(String.valueOf(sheetindex));
+			wb.setSheetName(sheetindex++, sheetname);
+//			CellStyle cellStyle =  wb.createCellStyle();
+//			cellStyle.setAlignment(CellStyle.ALIGN_LEFT);
+//			cellStyle.setBorderBottom(CellStyle.BORDER_DASHED);
+			String[] headers = new String[]{"采购单号","服务器固资号","服务器SN号","厂商","机型","设备类型"
+					,"版本","部件类型","部件原厂PN（支持采集的为OS采集PN)","部件原厂SN （支持采集的为OS采集SN）"
+					,"部件FW版本"};
+			Row row = sheet.createRow(0);
+			Font createFont = wb.createFont();
+			CellStyle createCellStyle = wb.createCellStyle();
+			createFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+			createCellStyle.setFont(createFont);
+			createCellStyle.setWrapText(true);//
+			createCellStyle.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
+			createCellStyle.setBorderBottom(CellStyle.BORDER_MEDIUM);
+			createCellStyle.setBorderLeft(CellStyle.BORDER_THIN);
+			createCellStyle.setBorderRight(CellStyle.BORDER_THIN);
+			createCellStyle.setBorderTop(CellStyle.BORDER_THIN);
+			createCellStyle.setFillBackgroundColor(CellStyle.SOLID_FOREGROUND);
+			CellStyle createCellStyle2 = wb.createCellStyle();
+			createCellStyle2.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
+			createCellStyle2.setBorderBottom(CellStyle.BORDER_THIN);
+			createCellStyle2.setBorderLeft(CellStyle.BORDER_THIN);
+			createCellStyle2.setBorderRight(CellStyle.BORDER_THIN);
+			createCellStyle2.setBorderTop(CellStyle.BORDER_THIN);
 			
-			int width = 0;
-//			System.out.println(ls);
-			ArrayList<String[]> ls2 =null;
-			if(ls!=null) {
-				ls2 = (ArrayList<String[]>) ToStringArrayUtil.toStringArray(ls);
-				
+			CellStyle createCellStyle3 = wb.createCellStyle();
+			createCellStyle3.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
+			createCellStyle3.setBorderBottom(CellStyle.BORDER_THIN);
+			createCellStyle3.setBorderLeft(CellStyle.BORDER_THIN);
+			createCellStyle3.setBorderRight(CellStyle.BORDER_THIN);
+			createCellStyle3.setBorderTop(CellStyle.BORDER_THIN);
+			createCellStyle3.setFillForegroundColor(HSSFColor.YELLOW.index);
+		    //solid 填充  foreground  前景色
+			createCellStyle3.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		    
+			for(int i=0;i<headers.length;i++){
+				Cell cell0 = row.createCell(i);
+				cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
+				cell0.setCellValue(headers[i]);// 写入内容
+				cell0.setCellStyle(createCellStyle);
+				if(i<5){
+					sheet.setColumnWidth(i,4000);
+				}else{
+					sheet.setColumnWidth(i,8000);
+				}
 			}
-			
-			for (int i = 0; i < ls2.size(); i++) {
-				row = sheet.createRow(index+i);
+//			createFont.setBoldweight(Font.BOLDWEIGHT_NORMAL);
+			int index =1;
+			for (int j = 0; j < systems.size(); j++) {
+//				System.out.println(systems.get(j).toString());
+				SystemModel system = systems.get(j);
+				ls = system.getComponent();
 				
-				if(i==0){
-					String[] snmaster =system.toStringArray();
-					for(int k=0;k<snmaster.length;k++){
-						Cell cell0 = row.createCell(k);
-						cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
-						cell0.setCellValue(snmaster[k]);// 写入内容
-						if(k<=3){
+				int width = 0;
+//				System.out.println(ls);
+				ArrayList<String[]> ls2 =null;
+				if(ls!=null) {
+					ls2 = (ArrayList<String[]>) ToStringArrayUtil.toStringArray(ls);
+					
+				}
+				
+				for (int i = 0; i < ls2.size(); i++) {
+					row = sheet.createRow(index+i);
+					
+					if(i==0){
+						String[] snmaster =system.toStringArray();
+						for(int k=0;k<snmaster.length;k++){
+							Cell cell0 = row.createCell(k);
+							cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
+							cell0.setCellValue(snmaster[k]);// 写入内容
+							if(k<=3){
+								cell0.setCellStyle(createCellStyle2);
+							}else{
+								cell0.setCellStyle(createCellStyle3);
+								
+							}
+						}
+					}else{
+						String[] snmaster = new String[]{"","","","","","",""};
+						for(int k=0;k<snmaster.length;k++){
+							Cell cell0 = row.createCell(k);
+							cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
+							cell0.setCellValue(snmaster[k]);// 写入内容
 							cell0.setCellStyle(createCellStyle2);
-						}else{
-							cell0.setCellStyle(createCellStyle3);
-							
 						}
 					}
-				}else{
-					String[] snmaster = new String[]{"","","","","","",""};
-					for(int k=0;k<snmaster.length;k++){
-						Cell cell0 = row.createCell(k);
-						cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
-						cell0.setCellValue(snmaster[k]);// 写入内容
-						cell0.setCellStyle(createCellStyle2);
+					
+					String[] s = ls2.get(i);
+					for (int cols = 0; cols < s.length; cols++) {
+						Cell cell = row.createCell(cols + 7);
+						cell.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
+						cell.setCellStyle(createCellStyle2);
+						XSSFCellBorder border = new XSSFCellBorder();
+						border.setBorderStyle(BorderSide.TOP,BorderStyle.MEDIUM);
+//						StylesTable table = new StylesTable();
+//						CellStyle style = table.createCellStyle();
+//						style.setBorderTop((short)6);
+//						cell.setCellStyle(style);
+//						if (null != s[cols]) {
+//							sheet.setColumnWidth(cols, ((width=s[cols].length())<6?6:width)*384); //设置单元格宽度  
+//						}
+						cell.setCellValue(s[cols]);// 写入内容
 					}
 				}
-				
-				String[] s = ls2.get(i);
-				for (int cols = 0; cols < s.length; cols++) {
-					Cell cell = row.createCell(cols + 7);
-					cell.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
-					cell.setCellStyle(createCellStyle2);
-					XSSFCellBorder border = new XSSFCellBorder();
-					border.setBorderStyle(BorderSide.TOP,BorderStyle.MEDIUM);
-//					StylesTable table = new StylesTable();
-//					CellStyle style = table.createCellStyle();
-//					style.setBorderTop((short)6);
-//					cell.setCellStyle(style);
-//					if (null != s[cols]) {
-//						sheet.setColumnWidth(cols, ((width=s[cols].length())<6?6:width)*384); //设置单元格宽度  
-//					}
-					cell.setCellValue(s[cols]);// 写入内容
-				}
-			}
-			index+=ls2.size();
+				index+=ls2.size();
 
+			}
 		}
+		
+		
 		try {
 			if (null != output) {
 				wb.write(output);
@@ -240,42 +249,38 @@ public class WriteExcelService {
 		return filePath;
 	}
 	
-	private List<SystemModel> getOsMsg(Map<String,Object> map){
-		List<OsMsgModel> models =null;
+	private Map<String,List<SystemModel>> getOsMsg(Map<String,Object> map){
+		OsMsgModel model =null;
 		try {
-			models = osMsgDao.findAll(map);
+			model = osMsgDao.findAll(map);
 		} catch (Exception e) {
 			String errorMsg = e.getCause().toString();
 			logger.error(errorMsg);
 		}
-		//System.out.println(models);
-		List<SystemModel> list = new ArrayList<SystemModel>();
-		SystemModel system =null;
-		for(OsMsgModel model:models){
-			String json = model.getJson();
-			if(json.indexOf("\"cpu\":{")!=-1){
-				json = json.replace("\"cpu\":{", "\"cpu\":[{");
-				json = json.replace("},\"hdd\"", "}],\"hdd\"");
-			}
-			system = parseJson(json);
-			if(system!=null){
-				list.add(system);
-			}
+		
+		String json = model.getJson();
+		if(json.indexOf("\"cpu\":{")!=-1){
+			json = json.replace("\"cpu\":{", "\"cpu\":[{");
+			json = json.replace("},\"hdd\"", "}],\"hdd\"");
 		}
-		return list;
+		json = json.replace(",,", ",");
+		List<Result> results =  parseJson(json);
+		//System.out.println(models);
+		 Map<String,List<SystemModel>> lists = new HashMap<String,List<SystemModel>>();
+		for(Result result:results){
+			lists.put(result.getSkuno(), result.getSystem());
+		}
+		return lists;
 	}
 	
 	
-	private SystemModel parseJson(String json){
+	private List<Result> parseJson(String json){
 		if(json==null){
 			return null;
 		}
 		SystemModel system =null;
-		Result result = JSON.parseObject(json, Result.class);
-		if(result!=null){
-			system = result.getSystem();
-		}
-		return system;
+		List<Result> results = JSON.parseArray(json, Result.class);
+		return results;
 	}
 	
 	
@@ -287,7 +292,7 @@ public class WriteExcelService {
 		SystemModel system = null;
 		Result result = JSON.parseObject(json, Result.class);
 		if(result!=null){
-			system = result.getSystem();
+			system = result.getSystem().get(0);
 		}
 		if(system!=null){
 			systems.add(system);
@@ -296,7 +301,7 @@ public class WriteExcelService {
 		result= new Result();
 		result = JSON.parseObject(json, Result.class);
 		if(result!=null){
-			system = result.getSystem();
+			system = result.getSystem().get(0);
 		}
 		if(system!=null){
 			systems.add(system);
