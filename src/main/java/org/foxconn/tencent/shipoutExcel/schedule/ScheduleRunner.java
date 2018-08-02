@@ -75,7 +75,7 @@ public class ScheduleRunner {
 				MMprodmasterSAPClient client = new MMprodmasterSAPClient();
 				for(String key :org.foxconn.tencent.shipoutExcel.entity.Component.pnmap.keySet())
 				{
-					String value=key;
+					String value=null;
 					try {
 						value = client.downMMprodmastercalls(key);
 					} catch (JCoException e) {

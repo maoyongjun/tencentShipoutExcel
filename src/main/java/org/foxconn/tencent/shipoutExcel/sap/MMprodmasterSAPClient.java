@@ -52,13 +52,13 @@ public class MMprodmasterSAPClient extends SAPBaseClient
         catch(AbapException e)
         {	
         	logger.error(e.getCause().toString());
-            return partno;
+            return null;
         }
         JCoParameterList jCoParameterList= function.getTableParameterList();
         JCoTable table =  jCoParameterList.getTable("PROD_MASTER");
         //System.out.println(table.toString());
        //System.out.println(table.toXML());
-       String mfrpn="";
+       String mfrpn=null;
        for (int i = 0; i < table.getNumRows(); i++) {
     	   table.setRow(i);
     	   mfrpn = table.getString("MFRPN");

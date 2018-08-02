@@ -149,7 +149,7 @@ public class SystemModel extends Component{
 
 
 	public List<Component> getComponent() {
-		addList(component,board,"BOARD");
+		addList(component,board,"MB");
 		addList(component,cpu,"CPU");
 		addList(component,hdd,"HDD");
 		addList(component,memory,"MEMORY");

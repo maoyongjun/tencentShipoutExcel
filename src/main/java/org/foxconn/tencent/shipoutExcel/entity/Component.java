@@ -91,19 +91,24 @@ public class Component extends BaseStringArray{
 			//从sap获取供应商料号信息
 			if("CABLE".equals(type)||"FAN".equals(type)){
 				client = new MMprodmasterSAPClient();
-				String mfrpn;
+				String mfrpn=null;
 				String pn = sub.getPn(); 				
 				mfrpn = pnmap.get(pn);
 				//设置值的时候会覆盖掉原值
 				if(null==mfrpn){
-					try {
-						mfrpn = client.downMMprodmastercalls(sub.getPn());
+					  for(int i=0;i<3;i++){
+							if(mfrpn==null){
+								try {
+									mfrpn = client.downMMprodmastercalls(sub.getPn());
+								} catch (JCoException e) {
+									logger.error(e.getCause().toString());
+								}
+							}
+						}
 						pnmap.put(pn, mfrpn);
 						sub.setPn(mfrpn);
 						logger.info("pn:"+pn+",mfrpn:"+mfrpn);
-					} catch (JCoException e) {
-						logger.error(e.getCause().toString());
-					}
+					
 				}else{
 					sub.setPn(mfrpn);
 				}
