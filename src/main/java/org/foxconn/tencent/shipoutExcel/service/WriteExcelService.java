@@ -133,7 +133,7 @@ public class WriteExcelService {
 //			cellStyle.setBorderBottom(CellStyle.BORDER_DASHED);
 			String[] headers = new String[]{"采购单号","服务器固资号","服务器SN号","厂商","机型","设备类型"
 					,"版本","部件类型","部件原厂PN（支持采集的为OS采集PN)","部件原厂SN （支持采集的为OS采集SN）"
-					,"部件FW版本"};
+					,"部件FW版本","部件实物扫描PN","部件实物扫描SN"};
 			Row row = sheet.createRow(0);
 			Font createFont = wb.createFont();
 			CellStyle createCellStyle = wb.createCellStyle();
@@ -259,6 +259,7 @@ public class WriteExcelService {
 		}
 		
 		String json = model.getJson();
+		logger.info(json);
 		if(json.indexOf("\"cpu\":{")!=-1){
 			json = json.replace("\"cpu\":{", "\"cpu\":[{");
 			json = json.replace("},\"hdd\"", "}],\"hdd\"");
@@ -278,7 +279,6 @@ public class WriteExcelService {
 		if(json==null){
 			return null;
 		}
-		SystemModel system =null;
 		List<Result> results = JSON.parseArray(json, Result.class);
 		return results;
 	}

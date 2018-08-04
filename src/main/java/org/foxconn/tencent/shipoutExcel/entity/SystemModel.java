@@ -164,7 +164,7 @@ public class SystemModel extends Component{
 		addList(component,frontio,"FRONTIO");
 		addList(component,hbacard,"HBACARD");
 		addList(component,heatsink,"HEATSINK");
-		addList(component,ocpcard,"OCPCARD");
+		//addList(component,ocpcard,"OCPCARD");
 		addList(component,raidcard,"RAIDCARD");
 		addList(component,rear2hddbp,"REAR2HDDBP");
 		addList(component,risercard,"RISERCARD");
@@ -379,6 +379,7 @@ public class SystemModel extends Component{
 
 
 	public void setOcpcard(List<Component> ocpcard) {
+		efoxComponent.put("NIC", ocpcard);
 		this.ocpcard = ocpcard;
 	}
 
