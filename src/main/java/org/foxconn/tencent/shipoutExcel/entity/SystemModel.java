@@ -149,27 +149,27 @@ public class SystemModel extends Component{
 
 
 	public List<Component> getComponent() {
-		addList(component,board,"MB");
-		addList(component,cpu,"CPU");
-		addList(component,hdd,"HDD");
-		addList(component,memory,"MEMORY");
-		addList(component,nic,"NIC");
-		addList(component,psu,"PSU");
-		addList(component,raid,"RAID");
-		addList(component,hba,"HBA");
-		addList(component,bp,"BP");
-		addList(component,cable,"CABLE");
-		addList(component,cache,"CACHE");
-		addList(component,fan,"FAN");
-		addList(component,frontio,"FRONTIO");
-		addList(component,hbacard,"HBACARD");
-		addList(component,heatsink,"HEATSINK");
+		addList(component,board,"MB","主板");
+		addList(component,cpu,"CPU","CPU");
+		addList(component,hdd,"HDD","硬盘");
+		addList(component,memory,"MEMORY","内存");
+		addList(component,nic,"NIC","网卡");
+		addList(component,psu,"PSU","电源");
+		addList(component,raid,"RAID","RAID卡");
+		addList(component,hba,"HBA","HBA卡");
+		addList(component,bp,"BP","背板");
+		addList(component,cable,"CABLE","Cable");
+		addList(component,cache,"CACHE","Cache");
+		addList(component,fan,"FAN","风扇");
+		addList(component,frontio,"FRONTIO","PCIE转接卡");
+		addList(component,hbacard,"HBACARD","HBA卡");
+		addList(component,heatsink,"HEATSINK","HeatSink");
 		//addList(component,ocpcard,"OCPCARD");
-		addList(component,raidcard,"RAIDCARD");
-		addList(component,rear2hddbp,"REAR2HDDBP");
-		addList(component,risercard,"RISERCARD");
-		addList(component,sas93008i,"SAS93008I");
-		addList(component,vrochwkey,"VROCHWKEY");
+		addList(component,raidcard,"RAIDCARD","RAID卡");
+		addList(component,rear2hddbp,"REAR2HDDBP","背板");
+		addList(component,risercard,"RISERCARD","Riser卡");
+		addList(component,sas93008i,"SAS93008I","SAS93008I");
+		addList(component,vrochwkey,"VROCHWKEY","VROCHWKEY");
 		return component;
 	}
 

@@ -19,6 +19,7 @@ public class Component extends BaseStringArray{
 	private String type;
 	private String efoxpn;
 	private String efoxsn;
+	private String description;
 	public static Map<String,String> pnmap= new HashMap<String, String>();
 	
 	private List<Component> efoxCpu= new ArrayList<Component>();
@@ -38,6 +39,15 @@ public class Component extends BaseStringArray{
 	
 	protected Map<String, List<Component>> efoxComponent = new HashMap<String, List<Component>>();
 	
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public List<Component> getEfoxhdd() {
 		return efoxhdd;
 	}
@@ -149,7 +159,7 @@ public class Component extends BaseStringArray{
 	@Override
 	public String[] toStringArray() {
 		// TODO Auto-generated method stub
-		return new String[]{getType(),pn,sn,fw,efoxpn,efoxsn};
+		return new String[]{getDescription(),pn,sn,fw,efoxpn,efoxsn};
 	}
 	@Override
 	public String[] getHeader() {
@@ -162,12 +172,14 @@ public class Component extends BaseStringArray{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public void addList(List<Component> component,List<Component> subcomponent,String type){
+	public void addList(List<Component> component,List<Component> subcomponent,String type,String description){
 		MMprodmasterSAPClient client =null;
 		
 		for(Component sub:subcomponent){
 			if(sub.getType()==null||"".equals(sub.getType().trim())){
-				sub.setType(type);
+				sub.setDescription(description);//从os中抓取的，用后面的描述名作为 描述
+			}else{
+				sub.setDescription(sub.getType());//从efox抓取的用type，使用efox的type，也就是描述。efox中的描述优先级高于代码中的描述
 			}
 			//从sap获取供应商料号信息
 			if("CABLE".equals(type)||"FAN".equals(type)){
@@ -240,11 +252,13 @@ public class Component extends BaseStringArray{
 		component.addAll(subcomponent);
 	}
 	
-	public void addList(List<Component> component,Component sub,String type){
+	public void addList(List<Component> component,Component sub,String type,String description){
 		if(sub.getType()==null||"".equals(sub.getType().trim())){
-			sub.setType(type);
+			sub.setDescription(description);
+		}else{
+			sub.setDescription(sub.getType());
 		}
-		if("MB".equals(sub.getType())){
+		if("MB".equals(type)){
 			
 			if(efoxComponent.get(type)!=null||efoxComponent.get(type).size()>0){
 				sub.setEfoxpn(efoxComponent.get(type).get(0).getPn());
