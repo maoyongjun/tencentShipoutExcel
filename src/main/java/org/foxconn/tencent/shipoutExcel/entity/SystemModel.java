@@ -58,7 +58,7 @@ public class SystemModel extends Component{
 	@Override
 	public String[] toStringArray() {
 		// TODO Auto-generated method stub
-		return new String[]{po,accecode,getSn(),factoryname,machine,deviceType,ver};
+		return new String[]{"新增",po,accecode,getSn(),factoryname,machine,deviceType,ver};
 	}
 
 

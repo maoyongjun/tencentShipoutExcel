@@ -131,7 +131,7 @@ public class WriteExcelService {
 //			CellStyle cellStyle =  wb.createCellStyle();
 //			cellStyle.setAlignment(CellStyle.ALIGN_LEFT);
 //			cellStyle.setBorderBottom(CellStyle.BORDER_DASHED);
-			String[] headers = new String[]{"采购单号","服务器固资号","服务器SN号","厂商","机型","设备类型"
+			String[] headers = new String[]{"操作类型","采购单号","服务器固资号","服务器SN号","厂商","机型","设备类型"
 					,"版本","部件类型","部件原厂PN（支持采集的为OS采集PN)","部件原厂SN （支持采集的为OS采集SN）"
 					,"部件FW版本","部件实物扫描PN","部件实物扫描SN"};
 			Row row = sheet.createRow(0);
@@ -159,9 +159,9 @@ public class WriteExcelService {
 			createCellStyle3.setBorderLeft(CellStyle.BORDER_THIN);
 			createCellStyle3.setBorderRight(CellStyle.BORDER_THIN);
 			createCellStyle3.setBorderTop(CellStyle.BORDER_THIN);
-			createCellStyle3.setFillForegroundColor(HSSFColor.YELLOW.index);
+			//createCellStyle3.setFillForegroundColor(HSSFColor.YELLOW.index);
 		    //solid 填充  foreground  前景色
-			createCellStyle3.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+//			createCellStyle3.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		    
 			for(int i=0;i<headers.length;i++){
 				Cell cell0 = row.createCell(i);
@@ -192,43 +192,26 @@ public class WriteExcelService {
 				for (int i = 0; i < ls2.size(); i++) {
 					row = sheet.createRow(index+i);
 					
-					if(i==0){
-						String[] snmaster =system.toStringArray();
-						for(int k=0;k<snmaster.length;k++){
-							Cell cell0 = row.createCell(k);
-							cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
-							cell0.setCellValue(snmaster[k]);// 写入内容
-							if(k<=3){
-								cell0.setCellStyle(createCellStyle2);
-							}else{
-								cell0.setCellStyle(createCellStyle3);
-								
-							}
-						}
-					}else{
-						String[] snmaster = new String[]{"","","","","","",""};
-						for(int k=0;k<snmaster.length;k++){
-							Cell cell0 = row.createCell(k);
-							cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
-							cell0.setCellValue(snmaster[k]);// 写入内容
+					String[] snmaster =system.toStringArray();
+					for(int k=0;k<snmaster.length;k++){
+						Cell cell0 = row.createCell(k);
+						cell0.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
+						cell0.setCellValue(snmaster[k]);// 写入内容
+						if(k<=3){
 							cell0.setCellStyle(createCellStyle2);
+						}else{
+							cell0.setCellStyle(createCellStyle3);
+							
 						}
 					}
 					
 					String[] s = ls2.get(i);
 					for (int cols = 0; cols < s.length; cols++) {
-						Cell cell = row.createCell(cols + 7);
+						Cell cell = row.createCell(cols + snmaster.length);
 						cell.setCellType(XSSFCell.CELL_TYPE_STRING);// 文本格式
 						cell.setCellStyle(createCellStyle2);
 						XSSFCellBorder border = new XSSFCellBorder();
 						border.setBorderStyle(BorderSide.TOP,BorderStyle.MEDIUM);
-//						StylesTable table = new StylesTable();
-//						CellStyle style = table.createCellStyle();
-//						style.setBorderTop((short)6);
-//						cell.setCellStyle(style);
-//						if (null != s[cols]) {
-//							sheet.setColumnWidth(cols, ((width=s[cols].length())<6?6:width)*384); //设置单元格宽度  
-//						}
 						cell.setCellValue(s[cols]);// 写入内容
 					}
 				}

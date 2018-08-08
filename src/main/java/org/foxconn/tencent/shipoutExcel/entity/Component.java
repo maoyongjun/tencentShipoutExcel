@@ -214,11 +214,18 @@ public class Component extends BaseStringArray{
 		
 		
 		client=null;
-		
+	 List<Component> removeComponent = new ArrayList<Component>();
 	 if("BP".equals(type)||"MEMORY".equals(type)||"PSU".equals(type)||"HDD".equals(type)||"CPU".equals(type)||"NIC".equals(type)){
 			int index=0;
 			
 			for(Component sub:subcomponent){
+				
+				if("NIC".equals(type)){
+					if(null!=sub.getSn()&&sub.getSn().indexOf(":")!=-1){
+						removeComponent.add(sub);
+					}
+				}
+				
 				if("BP".equals(type)){
 					if(sub.getFw()!=null&&!"".equals(sub.getFw().trim())&&null!=efoxComponent.get(type)&&efoxComponent.get(type).size()>0){
 						sub.setSn(efoxComponent.get(type).get(0).getSn());
@@ -227,6 +234,7 @@ public class Component extends BaseStringArray{
 						sub.setEfoxsn(efoxComponent.get(type).get(index++).getSn());
 					}
 				}else{
+					
 					if(efoxComponent.get(type)==null||efoxComponent.get(type).size()<=index){
 						break;
 					}
@@ -234,13 +242,8 @@ public class Component extends BaseStringArray{
 						sub.setSn(efoxComponent.get(type).get(index).getSn());
 					}
 					if("NIC".equals(type)){
-						if(sub.getSn().indexOf(":")!=-1){
-							continue;
-						}else{
-							sub.setEfoxpn(efoxComponent.get(type).get(index).getPn());
-							sub.setEfoxsn(efoxComponent.get(type).get(index).getSn());
-							continue;
-						}
+						sub.setEfoxpn(efoxComponent.get(type).get(index).getPn());
+						sub.setEfoxsn(efoxComponent.get(type).get(index).getSn());
 					}
 					sub.setEfoxpn(efoxComponent.get(type).get(index).getPn());
 					sub.setEfoxsn(efoxComponent.get(type).get(index++).getSn());
@@ -250,6 +253,7 @@ public class Component extends BaseStringArray{
 		
 		}
 		component.addAll(subcomponent);
+		component.removeAll(removeComponent);//SN带冒号的网卡不要
 	}
 	
 	public void addList(List<Component> component,Component sub,String type,String description){
