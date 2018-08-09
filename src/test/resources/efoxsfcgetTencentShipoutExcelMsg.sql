@@ -13,20 +13,25 @@ AS
 		SN	VARCHAR(100),
 		NUM INT
 	)
+
+	--获取装箱出货的SN
 	IF RTRIM(LTRIM(ISNULL(@ssn,'')))=''
 	BEGIN
 	
 		INSERT INTO @tboxSN
-		SELECT  F1.skuno ,F1.SN,ROW_NUMBER() OVER (PARTITION BY skuno  ORDER BY  lasteditdt DESC) AS RN  
-				FROM(
-			SELECT TOP 100 A.skuno ,A.sysserialno  AS SN,A.lasteditdt
-			FROM  mfsysproduct A, mfworkstatus B
-			WHERE location<>''
-				  AND A.sysserialno = B.sysserialno 
-				  AND B.routeid LIKE 'LXTe%'
-				  AND A.lasteditdt>@startTime AND A.lasteditdt<@endTime
-					  ORDER BY A.lasteditdt DESC
-			) F1
+		 SELECT  F1.skuno ,F1.SN,ROW_NUMBER() OVER (PARTITION BY skuno  ORDER BY  SCANTIME DESC) AS RN  
+		 FROM(
+				SELECT TOP 1000 A.skuno ,A.sysserialno  AS SN,MAX(C.scandatetime) AS SCANTIME
+				FROM  mfsysproduct A, mfworkstatus B ,mfsysevent c
+				WHERE a.field1<>''
+					  AND A.sysserialno = B.sysserialno 
+					  AND B.routeid LIKE 'LXTe%'
+					  AND a.sysserialno =c.sysserialno
+					  AND C.eventname='NEW T-BOX'
+					  AND C.scandatetime>@startTime AND C.scandatetime<@endTime
+					  GROUP BY  A.skuno ,A.sysserialno   
+		) F1
+
 	END
 	ELSE
 	BEGIN
@@ -35,7 +40,7 @@ AS
 				FROM(
 			SELECT  A.skuno ,A.sysserialno  AS SN,A.lasteditdt
 			FROM  mfsysproduct A, mfworkstatus B
-			WHERE location<>''
+			WHERE a.field1<>''
 				  AND A.sysserialno = B.sysserialno 
 				  AND B.routeid LIKE 'LXTe%'
 				  AND A.sysserialno IN (SELECT Value FROM dbo.fn_Split(@ssn,','))
@@ -46,7 +51,7 @@ AS
 		
 	declare @snJsonData TABLE(
 		sn		VARCHAR(100),
-		json	VARCHAR(MAX),
+		json	NVARCHAR(MAX),
 		SOURCE	varchar(100)
 	)		
 		
@@ -60,11 +65,12 @@ AS
 	)	
 	
 
+    --获取每一个SN对应的 属性信息
 	INSERT INTO @snJsonData
 	SELECT  SSN AS sn,REPLACE(Field9,'{"system":{','{"system":{'+dbo.fn_getTencentShipoutExcelHeaderMsg(SSN)+','+DBO.fn_getTencentShipoutExcelMsg(SSN)+',')as json,'os' AS 'source' 
 	FROM (
 		SELECT   ROW_NUMBER() OVER (PARTITION BY SSN  ORDER BY lasteditdt DESC) AS RN  ,*
-		FROM (SELECT top 1000 * 
+		FROM (SELECT top 5000 * 
 				FROM eFoxSFCUpdateSSNStatusBySSN_tencent_input 
 				WHERE SSN IN (SELECT sn FROM @tboxSN)
 					  AND Field9<>''
@@ -80,7 +86,7 @@ AS
 	--select sn,SUBSTRING(json,LEN('{"system":')+1,len(json)-LEN('{"system":')-1) from @snJsonData
 	update @snJsonData set json = SUBSTRING(json,LEN('{"system":')+1,len(json)-LEN('{"system":')-1)
 	
-	declare @jsonDataStr VARCHAR(MAX)
+	declare @jsonDataStr NVARCHAR(MAX)
 	SET @jsonDataStr =''
 	
 	
@@ -89,6 +95,7 @@ AS
 	--WHERE	A.SN=B.sn
 	--ORDER BY ID
 	
+	--分料号进行分组，拼接成json数据
 	SELECT	@jsonDataStr =@jsonDataStr+(CASE WHEN NUM =1 THEN ']},{"skuno":"'+SKUNO+'","system":['+json ELSE ','+json END) 
 	FROM	@tboxSN A,@snJsonData B
 	WHERE	A.SN=B.sn
