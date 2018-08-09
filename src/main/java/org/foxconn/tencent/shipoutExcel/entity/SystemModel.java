@@ -30,7 +30,6 @@ public class SystemModel extends Component{
 	private List<Component> heatsink= new ArrayList<Component>();
 	private List<Component> ocpcard= new ArrayList<Component>();
 	private List<Component> raidcard= new ArrayList<Component>();
-	private List<Component> rear2hddbp= new ArrayList<Component>();
 	private List<Component> risercard= new ArrayList<Component>();
 	private List<Component> sas93008i= new ArrayList<Component>();
 	private List<Component> vrochwkey= new ArrayList<Component>();
@@ -166,7 +165,7 @@ public class SystemModel extends Component{
 		addList(component,heatsink,"HEATSINK","HeatSink");
 		//addList(component,ocpcard,"OCPCARD");
 		addList(component,raidcard,"RAIDCARD","RAID卡");
-		addList(component,rear2hddbp,"REAR2HDDBP","背板");
+//		addList(component,rear2hddbp,"REAR2HDDBP","背板");
 		addList(component,risercard,"RISERCARD","Riser卡");
 		addList(component,sas93008i,"SAS93008I","SAS93008I");
 		addList(component,vrochwkey,"VROCHWKEY","VROCHWKEY");
@@ -399,17 +398,6 @@ public class SystemModel extends Component{
 
 
 
-
-	public List<Component> getRear2hddbp() {
-		return rear2hddbp;
-	}
-
-
-
-
-	public void setRear2hddbp(List<Component> rear2hddbp) {
-		this.rear2hddbp = rear2hddbp;
-	}
 
 
 

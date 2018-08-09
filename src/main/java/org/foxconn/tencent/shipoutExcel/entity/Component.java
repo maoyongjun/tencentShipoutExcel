@@ -26,6 +26,8 @@ public class Component extends BaseStringArray{
 	
 	private List<Component> efoxbp= new ArrayList<Component>();
 	
+	private List<Component> rear2hddbp= new ArrayList<Component>();
+
 	private List<Component> efoxSSD= new ArrayList<Component>();
 	
 
@@ -40,6 +42,20 @@ public class Component extends BaseStringArray{
 	protected Map<String, List<Component>> efoxComponent = new HashMap<String, List<Component>>();
 	
 	
+	public List<Component> getRear2hddbp() {
+		return rear2hddbp;
+	}
+
+	public void setRear2hddbp(List<Component> rear2hddbp) {
+		if(efoxComponent.get("BP")!=null){
+			efoxComponent.get("BP").addAll(rear2hddbp);
+			
+		}else{
+			efoxComponent.put("BP",rear2hddbp);
+		}
+		this.rear2hddbp = rear2hddbp;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -116,7 +132,12 @@ public class Component extends BaseStringArray{
 	}
 
 	public void setEfoxbp(List<Component> efoxbp) {
-		efoxComponent.put("BP", efoxbp);
+		if(efoxComponent.get("BP")!=null){
+			
+			efoxComponent.get("BP").addAll(efoxbp);
+		}else{
+			efoxComponent.put("BP",efoxbp);
+		}
 		this.efoxbp = efoxbp;
 	}
 
@@ -227,12 +248,16 @@ public class Component extends BaseStringArray{
 				}
 				
 				if("BP".equals(type)){
-					if(sub.getFw()!=null&&!"".equals(sub.getFw().trim())&&null!=efoxComponent.get(type)&&efoxComponent.get(type).size()>0){
-						sub.setSn(efoxComponent.get(type).get(0).getSn());
-						sub.setPn(efoxComponent.get(type).get(0).getPn());
-						sub.setEfoxpn(efoxComponent.get(type).get(index).getPn());
-						sub.setEfoxsn(efoxComponent.get(type).get(index++).getSn());
-					}
+//					if(sub.getFw()!=null&&!"".equals(sub.getFw().trim())&&null!=efoxComponent.get(type)&&efoxComponent.get(type).size()>0){
+						try {
+							sub.setSn(efoxComponent.get(type).get(index).getSn());
+							sub.setPn(efoxComponent.get(type).get(index).getPn());
+							sub.setEfoxpn(efoxComponent.get(type).get(index).getPn());
+							sub.setEfoxsn(efoxComponent.get(type).get(index++).getSn());
+						} catch (Exception e) {
+							logger.error(sub.getSn()+":get bp from efox error");
+						}
+//					}
 				}else{
 					
 					if(efoxComponent.get(type)==null||efoxComponent.get(type).size()<=index){
