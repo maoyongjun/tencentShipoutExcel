@@ -2,6 +2,7 @@ package org.foxconn.tencent.shipoutExcel.entity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,13 +11,12 @@ import javax.print.attribute.HashPrintJobAttributeSet;
 
 import org.apache.log4j.Logger;
 import org.foxconn.tencent.shipoutExcel.sap.MMprodmasterSAPClient;
-import org.foxconn.testSortList.Result;
 
 import com.sap.conn.jco.JCoException;
 
-public class Component extends BaseStringArray implements Comparable{
+public class Component extends BaseStringArray{
 	private String pn;
-	private String sn;
+	protected String sn;
 	private String fw;
 	private String type;
 	private String efoxpn;
@@ -197,7 +197,14 @@ public class Component extends BaseStringArray implements Comparable{
 	}
 	public void addList(List<Component> component,List<Component> subcomponent,String type,String description){
 		MMprodmasterSAPClient client =null;
-		Collections.sort(subcomponent);
+		//hdd的按照SN来排序，其他的OS的按后8位排序
+		if(!"HDD".equals(type)){
+			Collections.sort(subcomponent,new Comparator() {
+				public int compare(Object o1, Object o2) {
+					return subStr(((Component)o1).getSn()).compareTo(subStr(((Component)o2).getSn()));
+				}
+			});
+		}
 		for(Component sub:subcomponent){
 			if(sub.getType()==null||"".equals(sub.getType().trim())){
 				sub.setDescription(description);//从os中抓取的，用后面的描述名作为 描述
@@ -299,12 +306,11 @@ public class Component extends BaseStringArray implements Comparable{
 		component.add(sub);
 	}
 
-	@Override
-	public int compareTo(Object o) {
-		
-		return subStr(this.sn).compareTo(subStr(((Component)o).getSn()));
-	}
-	
+//	@Override
+//	public int compareTo(Object o) {
+//		return subStr(this.sn).compareTo(subStr(((Component)o).getSn()));
+//	}
+//	
 	private String subStr(String str){
 		if(str==null){
 			return "";

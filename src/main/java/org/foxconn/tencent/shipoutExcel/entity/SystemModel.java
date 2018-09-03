@@ -1,10 +1,12 @@
 package org.foxconn.tencent.shipoutExcel.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SystemModel extends Component{
-	private String sn;
+//	private String sn;
 	private String po;
 	private String accecode;
 	private String factoryname;
@@ -40,17 +42,17 @@ public class SystemModel extends Component{
 
 	List<Component> component= new ArrayList<Component>();
 	
-	public String getSn() {
-		return sn;
-	}
-
-
-
-
-	public void setSn(String sn) {
-		this.sn = sn;
-	}
-
+//	public String getSn() {
+//		return sn;
+//	}
+//
+//
+//
+//
+//	public void setSn(String sn) {
+//		this.sn = sn;
+//	}
+//
 
 
 
@@ -150,7 +152,14 @@ public class SystemModel extends Component{
 	public List<Component> getComponent() {
 		addList(component,board,"MB","主板");
 		addList(component,cpu,"CPU","CPU");
+		Collections.sort(hdd,new Comparator() {
+			public int compare(Object o1, Object o2) {
+				return((Component)o1).getSn().compareTo(((Component)o2).getSn());
+			}
+		});
+		
 		addList(component,hdd,"HDD","硬盘");
+		
 		addList(component,memory,"MEMORY","内存");
 		addList(component,nic,"NIC","网卡");
 		addList(component,psu,"PSU","电源");

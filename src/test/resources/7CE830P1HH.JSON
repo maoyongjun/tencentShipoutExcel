@@ -1,0 +1,375 @@
+[
+	{
+		"skuno": "1A21T8W00-600-GX2",
+		"system": [
+			{
+				"po": "POGO201807300013",
+				"accecode": "TYSV18070P7R",
+				"factoryname": "FOXCONN",
+				"machine": "RM760-FX",
+				"deviceType": "SH1-10G",
+				"ver": "6.0.1.17",
+				"sn": "7CE830P1HH",
+				"cable": [
+					{
+						"pn": "350740H00-245-G",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "350740H00-245-G",
+						"efoxsn": ""
+					},
+					{
+						"pn": "350740J00-245-G0B",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "350740J00-245-G0B",
+						"efoxsn": ""
+					},
+					{
+						"pn": "350740J00-245-G0B",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "350740J00-245-G0B",
+						"efoxsn": ""
+					},
+					{
+						"pn": "35104FF00-245-G",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "35104FF00-245-G",
+						"efoxsn": ""
+					},
+					{
+						"pn": "35104QY00-245-G",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "35104QY00-245-G",
+						"efoxsn": ""
+					},
+					{
+						"pn": "35104R000-245-G",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "35104R000-245-G",
+						"efoxsn": ""
+					},
+					{
+						"pn": "35121G700-245-G",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "35121G700-245-G",
+						"efoxsn": ""
+					},
+					{
+						"pn": "35121HY00-245-G",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "35121HY00-245-G",
+						"efoxsn": ""
+					},
+					{
+						"pn": "35121J000-245-G",
+						"sn": "",
+						"type": "Cable",
+						"efoxpn": "35121J000-245-G",
+						"efoxsn": ""
+					}
+				],
+				"efoxboard": [
+					{
+						"pn": "02012EW00-600-G0B",
+						"sn": "02012EW00T0BAW013",
+						"type": "主板",
+						"efoxpn": "02012EW00-600-G0B",
+						"efoxsn": "02012EW00T0BAW013"
+					}
+				],
+				"efoxbp": [
+					{
+						"pn": "100412Q00-600-G0A",
+						"sn": "100412Q00T0BAU0C6",
+						"type": "背板",
+						"efoxpn": "100412Q00-600-G0A",
+						"efoxsn": "100412Q00T0BAU0C6"
+					}
+				],
+				"efoxCpu": [
+					{
+						"pn": "110110600-187-G",
+						"sn": "78EK023000100",
+						"type": "CPU",
+						"efoxpn": "110110600-187-G",
+						"efoxsn": "78EK023000100"
+					},
+					{
+						"pn": "110110600-187-G",
+						"sn": "78EK023000706",
+						"type": "CPU",
+						"efoxpn": "110110600-187-G",
+						"efoxsn": "78EK023000706"
+					},
+					{
+						"pn": "81080JK00-187-G",
+						"sn": "BTYS80730456480BGN",
+						"type": "硬盘",
+						"efoxpn": "81080JK00-187-G",
+						"efoxsn": "BTYS80730456480BGN"
+					},
+					{
+						"pn": "81080KC00-187-G",
+						"sn": "BTLJ8136005G2P0BGN",
+						"type": "硬盘",
+						"efoxpn": "81080KC00-187-G",
+						"efoxsn": "BTLJ8136005G2P0BGN"
+					},
+					{
+						"pn": "81080KC00-187-G",
+						"sn": "BTLJ813602B02P0BGN",
+						"type": "硬盘",
+						"efoxpn": "81080KC00-187-G",
+						"efoxsn": "BTLJ813602B02P0BGN"
+					},
+					{
+						"pn": "81080KC00-187-G",
+						"sn": "BTLJ81400AR42P0BGN",
+						"type": "硬盘",
+						"efoxpn": "81080KC00-187-G",
+						"efoxsn": "BTLJ81400AR42P0BGN"
+					}
+				],
+				"efoxhdd": [
+					{
+						"pn": "81080KC00-187-G",
+						"sn": "BTLJ8136081H2P0BGN",
+						"type": "硬盘",
+						"efoxpn": "81080KC00-187-G",
+						"efoxsn": "BTLJ8136081H2P0BGN"
+					}
+				],
+				"efoxmemory": [
+					{
+						"pn": "800309E00-216-G",
+						"sn": "S802C0F18151BFDF37D",
+						"type": "内存",
+						"efoxpn": "800309E00-216-G",
+						"efoxsn": "S802C0F18151BFDF37D"
+					},
+					{
+						"pn": "800309E00-216-G",
+						"sn": "S802C0F18151BFDFA6C",
+						"type": "内存",
+						"efoxpn": "800309E00-216-G",
+						"efoxsn": "S802C0F18151BFDFA6C"
+					},
+					{
+						"pn": "800309E00-216-G",
+						"sn": "S802C0F18151BFDFAF1",
+						"type": "内存",
+						"efoxpn": "800309E00-216-G",
+						"efoxsn": "S802C0F18151BFDFAF1"
+					},
+					{
+						"pn": "800309E00-216-G",
+						"sn": "S802C0F18151BFDFEF0",
+						"type": "内存",
+						"efoxpn": "800309E00-216-G",
+						"efoxsn": "S802C0F18151BFDFEF0"
+					}
+				],
+				"efoxpsu": [
+					{
+						"pn": "860207T00-77H-G",
+						"sn": "F3182200000284",
+						"type": "电源",
+						"efoxpn": "860207T00-77H-G",
+						"efoxsn": "F3182200000284"
+					},
+					{
+						"pn": "860207T00-77H-G",
+						"sn": "F3182200000413",
+						"type": "电源",
+						"efoxpn": "860207T00-77H-G",
+						"efoxsn": "F3182200000413"
+					}
+				],
+				"fan": [
+					{
+						"pn": "490209800-H17-G",
+						"sn": "SG85A611",
+						"type": "风扇",
+						"efoxpn": "490209800-H17-G",
+						"efoxsn": "SG85A611"
+					},
+					{
+						"pn": "490209800-H17-G",
+						"sn": "SG85A6BN",
+						"type": "风扇",
+						"efoxpn": "490209800-H17-G",
+						"efoxsn": "SG85A6BN"
+					},
+					{
+						"pn": "490209800-H17-G",
+						"sn": "SG85A6BP",
+						"type": "风扇",
+						"efoxpn": "490209800-H17-G",
+						"efoxsn": "SG85A6BP"
+					},
+					{
+						"pn": "490209800-H17-G",
+						"sn": "SG85A6BR",
+						"type": "风扇",
+						"efoxpn": "490209800-H17-G",
+						"efoxsn": "SG85A6BR"
+					},
+					{
+						"pn": "490209800-H17-G",
+						"sn": "SG85A6BT",
+						"type": "风扇",
+						"efoxpn": "490209800-H17-G",
+						"efoxsn": "SG85A6BT"
+					},
+					{
+						"pn": "490209800-H17-G",
+						"sn": "SG85A70Y",
+						"type": "风扇",
+						"efoxpn": "490209800-H17-G",
+						"efoxsn": "SG85A70Y"
+					}
+				],
+				"rear2hddbp": [
+					{
+						"pn": "100412R00-600-G0A",
+						"sn": "100412R00T0BAU0TH",
+						"type": "背板",
+						"efoxpn": "100412R00-600-G0A",
+						"efoxsn": "100412R00T0BAU0TH"
+					},
+					{
+						"pn": "100414C00-600-G",
+						"sn": "100414C00T0AAV05X",
+						"type": "Riser卡",
+						"efoxpn": "100414C00-600-G",
+						"efoxsn": "100414C00T0AAV05X"
+					}
+				],
+				"risercard": [
+					{
+						"pn": "10040WH00-600-G0A",
+						"sn": "10040WH00T0AAG05L",
+						"type": "Riser卡",
+						"efoxpn": "10040WH00-600-G0A",
+						"efoxsn": "10040WH00T0AAG05L"
+					}
+				],
+				"pn": "RM760-FX",
+				"sn": "7CE830P1HH",
+				"board": {
+					"pn": "02012EW00-600-G",
+					"sn": "02012EW00T0BAW013",
+					"fw": "BMC:1.22;BIOS:HC1T115F;CPLD:06"
+				},
+				"cpu": [
+					{
+						"pn": "Intel(R)Xeon(R)Silver4110CPU@2.10GHz",
+						"sn": "54060500FFFBEBBF"
+					},
+					{
+						"pn": "Intel(R)Xeon(R)Silver4110CPU@2.10GHz",
+						"sn": "54060500FFFBEBBF"
+					}
+				],
+				"hdd": [
+					{
+						"pn": "INTELSSDSC2KB480G7",
+						"sn": "BTYS80730456480BGN",
+						"fw": "SCV10142"
+					},
+					{
+						"pn": "INTELSSDPE2KX020T8",
+						"sn": "BTLJ8136081H2P0BGN",
+						"fw": "VDV10131"
+					},
+					{
+						"pn": "INTELSSDPE2KX020T8",
+						"sn": "BTLJ8136005G2P0BGN",
+						"fw": "VDV10131"
+					},
+					{
+						"pn": "INTELSSDPE2KX020T8",
+						"sn": "BTLJ813602B02P0BGN",
+						"fw": "VDV10131"
+					},
+					{
+						"pn": "INTELSSDPE2KX020T8",
+						"sn": "BTLJ81400AR42P0BGN",
+						"fw": "VDV10131"
+					}
+				],
+				"memory": [
+					{
+						"pn": "18ASF2G72PDZ-2G6D1",
+						"sn": "1BFDFEF0"
+					},
+					{
+						"pn": "18ASF2G72PDZ-2G6D1",
+						"sn": "1BFDF37D"
+					},
+					{
+						"pn": "18ASF2G72PDZ-2G6D1",
+						"sn": "1BFDFAF1"
+					},
+					{
+						"pn": "18ASF2G72PDZ-2G6D1",
+						"sn": "1BFDFA6C"
+					}
+				],
+				"nic": [
+					{
+						"pn": "IntelCorporationEthernetConnectionX722for10GBASE-T(rev09)",
+						"sn": "70:20:84:e1:59:4f",
+						"fw": "3.33"
+					},
+					{
+						"pn": "IntelCorporationEthernetConnectionX722for10GBASE-T(rev09)",
+						"sn": "70:20:84:e1:59:4e",
+						"fw": "3.33"
+					}
+				],
+				"psu": [
+					{
+						"pn": "S15-550P1A",
+						"sn": "F3182200000413",
+						"fw": "00.01.01"
+					},
+					{
+						"pn": "S15-550P1A",
+						"sn": "F3182200000284",
+						"fw": "00.01.01"
+					}
+				],
+				"raid": {
+					"pn": "",
+					"sn": "",
+					"fw": ""
+				},
+				"hba": {
+					"pn": "",
+					"sn": "",
+					"fw": ""
+				},
+				"bp": [
+					{
+						"pn": "",
+						"sn": "",
+						"fw": "0707"
+					},
+					{
+						"pn": "",
+						"sn": "",
+						"fw": "0909"
+					}
+				]
+			}
+		]
+	}
+]
